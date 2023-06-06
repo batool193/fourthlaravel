@@ -20,34 +20,28 @@
             }
         </style>
     </head>
-    <body >
-        <div >          
-        @foreach ($families as $family )
-           National Number : {{$family->national_number}}
-           <br>
-            Name : {{$family->name}}
-            <br>
-            <form method="GET" action="{{ route('families.show', ['family' => $family->id]) }}">
+    <body class="antialiased">
+        <div class="relative flex items-top justify-center min-h-screen bg-gray-100 dark:bg-gray-900 sm:items-center py-4 sm:pt-0">
+        <form  action="{{ route('families.update' , ['family' => $family->id]) }}" method="post">
+        @csrf
+        {{ method_field('PUT') }}
+            <label>National Number :</label><input type='text' name='national_number' value={{$family->national_number}} required/>
+            <br><br>
+            <label>Name :</label><input type='text' name='name' value={{$family->name}}  required/>
+            <br><br>
+            <label>Phone :</label><input type='text' name='phone' value={{$family->phone}}  required/>
+            <br><br>
+            <label>Place :</label><select name='place_id' >
  
- {{ csrf_field() }}
+            @foreach ($places as $place )
+                <option value='{{$place->id}}'>{{$place->address}}</option>
+            @endforeach
+            <option value=''> No Address</option>
 
- <div style="float:left;" >
-     <input type="submit"  value="show family">
- </div>
-</form>
+        </select>  
 
-    <br><br>
-        @endforeach
-<center>
-        <form method="Get" action="{{ route('families.create') }}">
- 
- {{ csrf_field() }}
- <div >
-     <input type="submit"  value="Add New family">
- </div>
-</form>
-</center>
-   
+            <input   type='submit'  />
+    
         </form>
         </div>
     </body>

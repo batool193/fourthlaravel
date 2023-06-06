@@ -51,26 +51,40 @@ class FamilyController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Family $family)
+    public function edit($id)
     {
-        //
+        $places=Place::all();
+        $family=Family::find($id);    
+        return view('families.update-family',compact('places','family'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Family $family)
+    public function update(Request $request,$id)
     {
-        //
+        $family =Family::find($id);   
+    $family->national_number=$request['national_number'];
+    $family->name=$request['name'];
+    $family->phone=$request['phone'];
+    $family->place_id=$request['place_id'];
+//     Family::where('id', $id)
+//     ->update(['national_number' => $request['national_number'],
+// 'name'=>$request['name'],
+// 'phone'=>$request['phone'],
+// 'place_id'=>$request['place_id']]); 
+$family->save();
+       return redirect()->route('families.index');
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Family $family)
+    public function destroy($id)
     {
-        //
-    }
+        $family=Family::find($id);
+        $family->delete();
+return redirect()->route('families.index');    }
 
     public function addplacetofamily($id)
     {   $family = Family::find($id);
